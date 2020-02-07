@@ -26,7 +26,7 @@ public class PaymentRiskService {
         String value = (String) cr.value();
         PaymentRequest paymentRequest = objectMapper.readValue( value, PaymentRequest.class );
         int risk = calculateRisk( paymentRequest );
-        PaymentStatusEnum paymentStatusEnum = risk<70 ? PaymentStatusEnum.SUCCESS:PaymentStatusEnum.FAIL;
+        PaymentStatusEnum paymentStatusEnum = risk<70 ? PaymentStatusEnum.ACCEPTED:PaymentStatusEnum.REJECTED;
         int result = paymentRepository.updatePayment( paymentRequest.getId(), PaymentStatusEnum.PENDING, paymentStatusEnum );
         if ( result>0) {
             log.info("Update record for id: {} SUCCESS, set payment status {} ",  paymentRequest.getId(), paymentStatusEnum);
